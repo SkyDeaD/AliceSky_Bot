@@ -2,11 +2,14 @@ import logging
 import config
 import time
 import pymongo
+import os
+
 from aiogram import Bot, Dispatcher, executor, types
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=config.TOKEN)
+tok = os.environ['Telegram_token']
+bot = Bot(token=tok)
 db = Dispatcher(bot)
 
 client = pymongo.MongoClient("mongodb+srv://SkyDeaD:GamerVD76@aliceskybotandother-ik6lu.mongodb.net/client.test?retryWrites=true&w=majority")
@@ -15,11 +18,6 @@ coll = dbase.coll
 users = dbase.users
 
 adminlist = [577096232, 512177277, 470455469, 1210166637, 983581488]
-#577096232 - мой айди 
-#512177277 - айди Атика 
-#470455469 - айди Армена 
-#1210166637 - айди @crazzy_fox_777 
-#983581488 - айди snxx
 
 @db.message_handler(commands=['help'])
 async def start_handler(message):
