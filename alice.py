@@ -8,10 +8,11 @@ from aiogram import Bot, Dispatcher, executor, types
 logging.basicConfig(level=logging.INFO)
 
 tok = os.environ['Telegram_token']
+MongoIf = os.environ['Mongo']
 bot = Bot(token=tok)
 db = Dispatcher(bot)
 
-client = pymongo.MongoClient("mongodb+srv://SkyDeaD:GamerVD76@aliceskybotandother-ik6lu.mongodb.net/client.test?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+MongoIf")
 dbase = client.test
 coll = dbase.coll
 users = dbase.users
