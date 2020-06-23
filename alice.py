@@ -36,6 +36,8 @@ async def help_handler(message):
 
 *👤me* - информация о себе.
 
+*ℹ️info* - полная информация о пользователе и группе.
+
 *🌟admins* - список администраторов.
 
 *🤐Mute* - кидает выбранного пользователя в мут.
@@ -75,6 +77,8 @@ async def help_handler(message):
 На данный момент доступны следующие команды:
 
 *👤me* - информация о себе.
+
+*ℹ️info* - полная информация о пользователе и группе.
 
 *🌟admins* - список администраторов.
 
@@ -264,7 +268,7 @@ async def handle_message(message):
 				else:
 					await bot.send_message(message.chat.id, 'Я не понимаю, о ком идёт речь?', reply_to_message_id = message.message_id)			
 			else:
-				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📛Блокировка участников', reply_to_message_id = message.message_id)
+				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📛Блокировка участников', reply_to_message_id=message.message_id)
 
 @db.message_handler(commands=['pin'])
 async def handle_message(message):
@@ -278,7 +282,7 @@ async def handle_message(message):
 				else:
 					await bot.send_message(message.chat.id,' Выберите сообщение, которое нужно закрепить ', reply_to_message_id = message.message_id)			
 			else:
-				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📌Закрепление сообщений', reply_to_message_id = message.message_id)
+				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📌Закрепление сообщений', reply_to_message_id=message.message_id)
 
 @db.message_handler(commands=['unpin'])
 async def handle_message(message):
@@ -289,7 +293,7 @@ async def handle_message(message):
 				await bot.unpin_chat_message(message.chat.id)
 				await bot.delete_message(message.chat.id, message.message_id)
 			else:
-				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📌Закрепление сообщений\n❌Удаление сообщений', reply_to_message_id = message.message_id)
+				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n📌Закрепление сообщений\n❌Удаление сообщений', reply_to_message_id=message.message_id)
 
 @db.message_handler(commands=['del'])
 async def handle_message(message):
@@ -301,9 +305,9 @@ async def handle_message(message):
 					await bot.delete_message(message.chat.id, message.reply_to_message.message_id)
 					await bot.delete_message(message.chat.id, message.message_id)
 				else:
-					await bot.send_message(message.chat.id,' Выберите сообщение, которое нужно удалить ', reply_to_message_id = message.message_id)
+					await bot.send_message(message.chat.id,' Выберите сообщение, которое нужно удалить ', reply_to_message_id=message.message_id)
 			else:
-				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n❌Удаление сообщений', reply_to_message_id = message.message_id)
+				await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n❌Удаление сообщений', reply_to_message_id=message.message_id)
 		
 @db.message_handler(commands=['purge'])
 async def handle_message(message):
@@ -322,7 +326,7 @@ async def handle_message(message):
 					await bot.delete_message(message.chat.id, message.message_id)
 					await bot.send_message(message.chat.id, ' Чистка завершена. ')
 				else:
-					await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n❌Удаление сообщений.', reply_to_message_id = message.message_id)
+					await bot.send_message(message.chat.id, 'Для выполнения данной команды требуются следующие права администратора:\n\n❌Удаление сообщений.', reply_to_message_id=message.message_id)
 
 @db.message_handler(commands=["report"])
 async def mandle_message(message):
@@ -332,26 +336,46 @@ async def mandle_message(message):
 			text = 'На данное сообщение поступила жалоба.\n\n'
 			for i in adm:
 				text += f"\n@{i.user.username}"
-			await bot.send_message(message.chat.id, text, reply_to_message_id = message.reply_to_message.message_id)
+			await bot.send_message(message.chat.id, text, reply_to_message_id=message.reply_to_message.message_id)
 		else:
 			await bot.send_message(message.chat.id, " Выберите сообщение, на которое хотите пожаловаться. ", reply_to_message_id = message.message_id)
 
 
 @db.message_handler(commands=['me'])
 async def handle_message(message):
+	await bot.send_message( message.chat.id, F''' 
+*Ваше имя*: `{message.from_user.first_name}`
+*Ваш юзернейм*: `@{message.from_user.username}`
+*Ваш ID*: `{message.from_user.id} `
+''', reply_to_message_id = message.message_id, parse_mode='markdown')
+
+@db.message_handler(commands=['info'])
+async def handle_message(message):
 	if message.chat.type!='private':
-		await bot.send_message( message.chat.id, F''' 
-*Ваше имя*: `{message.from_user.first_name}`
-*Ваш юзернейм*: `@{message.from_user.username}`
-*Ваш ID*: `{message.from_user.id} `
-*ID этой группы*: `{message.chat.id}`
-''', reply_to_message_id = message.message_id, parse_mode = 'markdown')
-	else:
-		await message.reply(F'''
-*Ваше имя*: `{message.from_user.first_name}`
-*Ваш юзернейм*: `@{message.from_user.username}`
-*Ваш ID*: `{message.from_user.id} `
-''', parse_mode = 'markdown')
+		if message.reply_to_message!= None:
+			adm = await bot.get_chat_member(message.chat.id, message.reply_to_message.from_user.id)
+			group_id = await bot.get_chat(message.chat.id)
+			await message.reply(F'''
+*🚻Имя пользователя*: `{message.reply_to_message.from_user.first_name}`
+*🖋Юзернейм пользователя*: `@{message.reply_to_message.from_user.username}`
+*ℹ️ID пользователя*: `{message.reply_to_message.from_user.id}`
+*📫Статус пользователя*: `{adm.status}`
+*📕Название группы*: `{group_id.title}`
+*🆔ID группы*: `{group_id.id}`
+*🔠Тип группы*: `{group_id.type}`
+''', parse_mode='markdown')
+		else:
+			adm = await bot.get_chat_member(message.chat.id, message.from_user.id)
+			group_id = await bot.get_chat(message.chat.id)
+			await message.reply(F'''
+*🚻Имя пользователя*: `{message.from_user.first_name}`
+*🖋Юзернейм пользователя*: `@{message.from_user.username}`
+*ℹ️ID пользователя*: `{message.from_user.id}`
+*📫Статус пользователя*: `{adm.status}`
+*📕Название группы*: `{group_id.title}`
+*🆔ID группы*: `{group_id.id}`
+*🔠Тип группы*: `{group_id.type}`
+''', parse_mode='markdown')
 
 @db.message_handler(commands=['admins'])
 async def handle_message(message):
@@ -360,7 +384,7 @@ async def handle_message(message):
 			adm = await bot.get_chat_administrators(message.chat.id)
 			text = 'Администраторы чата:\n'
 			for i in adm:
-				text += f'\n{i.user.first_name} - @{i.user.username}'
+				text += f'\n{i.user.first_name} - @{i.user.username} - {i.user.id}'
 			await bot.send_message(message.chat.id, text)
 
 if __name__ == '__main__':
