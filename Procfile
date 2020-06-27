@@ -1,1 +1,1 @@
-worker: python alice.py
+bot: python3 alice.py
