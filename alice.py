@@ -17,7 +17,7 @@ dbase = client.test
 coll = dbase.coll
 users = dbase.users
 
-adminlist = [577096232, 512177277, 470455469, 1210166637, 983581488]
+adminlist = [577096232, 512177277, 470455469, 1210166637, 983581488, 609565291]
 
 @db.message_handler(commands=['start'])
 async def start_handler(message):
