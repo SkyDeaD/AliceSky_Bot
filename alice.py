@@ -130,7 +130,7 @@ async def handle_message(message):
 					if user.status not in ['administrator', 'creator']:
 						u_mute = await bot.get_chat_member(message.chat.id, message.reply_to_message.from_user.id)
 						if u_mute.can_send_messages==True or u_mute.can_send_messages==None:
-							await bot.send_message(message.chat.id, F'[{message.reply_to_message.from_user.first_name}](tg://user?id={message.reply_to_message.from_user.id}) потерял голос.', reply_to_message_i =message.reply_to_message.message_id, parse_mode='markdown')
+							await bot.send_message(message.chat.id, F'[{message.reply_to_message.from_user.first_name}](tg://user?id={message.reply_to_message.from_user.id}) потерял голос.', reply_to_message_id =message.reply_to_message.message_id, parse_mode='markdown')
 							await bot.restrict_chat_member(message.chat.id, message.reply_to_message.from_user.id, until_date = time.time())
 						else:
 							await bot.send_message(message.chat.id, F'[{message.reply_to_message.from_user.first_name}](tg://user?id={message.reply_to_message.from_user.id}) и так молчит.', reply_to_message_id=message.message_id, parse_mode='markdown')
