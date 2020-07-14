@@ -335,7 +335,8 @@ async def mandle_message(message):
 			adm = await bot.get_chat_administrators(message.chat.id)
 			text = 'На данное сообщение поступила жалоба.\n\n'
 			for i in adm:
-				text += f"\n@{i.user.username}"
+				if i.user.is_bot==False:
+					text += f"\n@{i.user.username}"
 			await bot.send_message(message.chat.id, text, reply_to_message_id=message.reply_to_message.message_id)
 		else:
 			await bot.send_message(message.chat.id, " Выберите сообщение, на которое хотите пожаловаться. ", reply_to_message_id = message.message_id)
@@ -384,7 +385,8 @@ async def handle_message(message):
 			adm = await bot.get_chat_administrators(message.chat.id)
 			text = 'Администраторы чата:\n'
 			for i in adm:
-				text += f'\n{i.user.first_name} - @{i.user.username} - {i.user.id}'
+				if i.user.is_bot==False:
+					text += f'\nИмя - {i.user.first_name}\nЮзернейм - {i.user.username}\n'
 			await bot.send_message(message.chat.id, text)
 
 if __name__ == '__main__':
